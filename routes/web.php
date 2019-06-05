@@ -11,6 +11,13 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->post('/login', 'UserController@login');
+$router->post('/register', 'UserController@register');
+
+$router->group(['prefix' => 'api', 'middleware' => 'jwt.auth'], function ($router) {
+    $router->get('/hello', 'HomeController@show');
+});
+
+$router->get('/{route:.*}/', function ()  {
+    return view('app');
 });
