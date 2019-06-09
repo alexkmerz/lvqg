@@ -29,4 +29,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
 //        'password',
     ];
+
+    public function repositories() {
+        return $this->hasMany('App\Models\Repository');
+    }
 }

@@ -40,11 +40,7 @@ class UserController extends Controller
 
             $token = JWT::encode($payload, env('JWT_SECRET'));
 
-            return response()->json([
-                'status'  => 200,
-                'message' => 'Login Successful',
-                'data'    => ['token' => $token ] // return token
-            ], 200);
+            return response()->json(['token' => $token], 200);
         }
         return response()->json([
             'error' => 'Login details provided does not exist.'

@@ -31,21 +31,21 @@
 
         },
         methods: {
+            /**
+             * Gets a jwt token from Lumen using email password combo
+             */
             login() {
                 axios.post('/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then((response) => {
-                    console.log(response.data.data.token);
-
-                    let config = {
-                        headers: {'Authorization': "bearer " + response.data.data.token}
-                    };
-
-                    this.test(config);
+                    this.$store.commit('setJwtToken', response.data.token);
                 });
             },
+            /**
+             * Registers a user with Lumen
+             */
             register() {
                 axios.post('/register', {
                     email: this.email,
@@ -53,12 +53,6 @@
                 }).then((response) => {
                     console.log(response);
                 });
-            },
-            test(config) {
-                axios.get('/api/hello', config)
-                    .then((response) => {
-                        console.log(response);
-                    })
             }
         }
     }

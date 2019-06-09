@@ -13,9 +13,18 @@
 
 $router->post('/login', 'UserController@login');
 $router->post('/register', 'UserController@register');
+$router->post('/clone', 'RepositoryController@clone');
+
 
 $router->group(['prefix' => 'api', 'middleware' => 'jwt.auth'], function ($router) {
-    $router->get('/hello', 'HomeController@show');
+    /**
+     * Repository management routes
+     */
+    $router->group(['prefix' => 'repository'], function ($router) {
+        $router->get('/', 'RepositoryController@index');
+
+        $router->post('/clone', 'RepositoryController@clone');
+    });
 });
 
 $router->get('/{route:.*}/', function ()  {
