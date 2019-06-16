@@ -22,11 +22,12 @@ $router->group(['prefix' => 'api', 'middleware' => 'jwt.auth'], function ($route
      */
     $router->group(['prefix' => 'repository'], function ($router) {
         $router->get('/', 'RepositoryController@index');
+        $router->get('/{id}', 'RepositoryController@getRepositoryStructure');
 
         $router->post('/clone', 'RepositoryController@clone');
     });
 });
 
-$router->get('/{route:.*}/', function ()  {
+$router->get('{route:.*}', function ()  {
     return view('app');
 });

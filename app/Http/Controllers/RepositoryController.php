@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FilesystemHelper;
 use App\Models\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -61,5 +63,16 @@ class RepositoryController extends Controller
         return response()->json([
             'message' => 'Your repository was cloned successfully.'
         ], 200);
+    }
+
+    public function getRepositoryStructure(Request $request, $id) {
+        //Get files in repo
+        $repository = Repository::find($id);
+        $files = Storage::allFiles(explode(storage_path('app'), $repository->local_location)[1]);
+
+        //Create directory structure
+        $directory_tree = FilesystemHelper::createDirectoryTree($files);
+
+        return response()->json(['structure' => $directory_tree], 200);
     }
 }

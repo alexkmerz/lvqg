@@ -40,7 +40,9 @@
                     password: this.password
                 })
                 .then((response) => {
+                    //Store token and navigate to dashboard
                     this.$store.commit('setJwtToken', response.data.token);
+                    this.$router.push('/dashboard');
                 });
             },
             /**
